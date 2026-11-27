@@ -1,0 +1,20 @@
+{
+  "type": "presale-plan",
+  "title": "План работ",
+  "inputs": [
+    "presale-brief"
+  ],
+  "output": "presale-work-plan",
+  "materials": [
+    {
+      "id": "presale/workflows/presale-playbook.md",
+      "load": "default",
+      "path": "presale/workflows/presale-playbook.md",
+      "kind": "workflows",
+      "title": "Регламент NooSoft для пресейла"
+    }
+  ],
+  "optionalInputs": [
+    "client-research"
+  ]
+}

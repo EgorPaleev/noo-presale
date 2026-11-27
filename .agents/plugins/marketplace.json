@@ -1,0 +1,17 @@
+{
+  "name": "noorules-presale",
+  "plugins": [
+    {
+      "name": "noorules-presale",
+      "source": {
+        "source": "local",
+        "path": "./plugins/noorules-presale"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

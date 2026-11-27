@@ -1,0 +1,18 @@
+{
+  "type": "presale-offer",
+  "title": "Клиентские материалы",
+  "inputs": [
+    "presale-work-plan",
+    "presale-estimate"
+  ],
+  "output": "presale-offer",
+  "materials": [
+    {
+      "id": "presale/workflows/presale-playbook.md",
+      "load": "default",
+      "path": "presale/workflows/presale-playbook.md",
+      "kind": "workflows",
+      "title": "Регламент NooSoft для пресейла"
+    }
+  ]
+}

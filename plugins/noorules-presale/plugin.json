@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "noorules-presale",
+  "version": "0.7.1",
+  "description": "Пресейл, оценка, прототипы и клиентские демо."
+}

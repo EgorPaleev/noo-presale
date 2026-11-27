@@ -1,0 +1,203 @@
+{
+  "version": "0.7.1",
+  "tasks": {
+    "discovery": {
+      "skill": "noo-presale-clarify",
+      "inputs": [
+        "request"
+      ],
+      "output": "project-brief"
+    },
+    "analysis": {
+      "skill": "noo-presale-clarify",
+      "inputs": [
+        "project-brief"
+      ],
+      "output": "functional-case"
+    },
+    "prototype": {
+      "skill": "noo-presale-prototype",
+      "inputs": [
+        "functional-case"
+      ],
+      "output": "prototype"
+    },
+    "model-selection": {
+      "skill": "noo-presale-model",
+      "inputs": [
+        "task-brief"
+      ],
+      "output": "model-plan"
+    },
+    "presale-intake": {
+      "skill": "noo-presale-stage",
+      "inputs": [
+        "request"
+      ],
+      "output": "presale-brief"
+    },
+    "presale-plan": {
+      "skill": "noo-presale-stage",
+      "inputs": [
+        "presale-brief"
+      ],
+      "output": "presale-work-plan",
+      "optionalInputs": [
+        "client-research"
+      ]
+    },
+    "presale-estimate": {
+      "skill": "noo-presale-stage",
+      "inputs": [
+        "presale-work-plan"
+      ],
+      "output": "presale-estimate",
+      "optionalInputs": [
+        "pricing"
+      ]
+    },
+    "presale-offer": {
+      "skill": "noo-presale-stage",
+      "inputs": [
+        "presale-work-plan",
+        "presale-estimate"
+      ],
+      "output": "presale-offer"
+    },
+    "presale-review": {
+      "skill": "noo-presale-stage",
+      "inputs": [
+        "presale-brief",
+        "presale-work-plan",
+        "presale-estimate",
+        "presale-offer"
+      ],
+      "output": "presale-review",
+      "optionalInputs": [
+        "client-research",
+        "presale-demo"
+      ]
+    },
+    "presale-client-research": {
+      "skill": "noo-presale-stage",
+      "inputs": [
+        "request"
+      ],
+      "output": "client-research"
+    },
+    "presale-demo": {
+      "skill": "noo-presale-prototype",
+      "inputs": [
+        "presale-work-plan"
+      ],
+      "output": "presale-demo"
+    }
+  },
+  "pipelines": {
+    "presale-full": {
+      "title": "Полный пресейл от вводных до проверенного комплекта",
+      "when": "Нужно собрать полный пресейл: разбор, исследование клиента, план работ, смету, КП, кликабельный прототип и итоговую сверку",
+      "steps": [
+        {
+          "id": "presale-intake",
+          "task": "presale-intake",
+          "skill": "noo-presale-stage",
+          "inputs": [
+            "request"
+          ],
+          "output": "presale-brief"
+        },
+        {
+          "id": "presale-client-research",
+          "task": "presale-client-research",
+          "skill": "noo-presale-stage",
+          "inputs": [
+            "request"
+          ],
+          "output": "client-research"
+        },
+        {
+          "id": "presale-plan",
+          "task": "presale-plan",
+          "skill": "noo-presale-stage",
+          "inputs": [
+            "presale-brief"
+          ],
+          "output": "presale-work-plan",
+          "dependsOn": [
+            "presale-intake",
+            "presale-client-research"
+          ],
+          "optionalInputs": [
+            "client-research"
+          ]
+        },
+        {
+          "id": "presale-estimate",
+          "task": "presale-estimate",
+          "skill": "noo-presale-stage",
+          "inputs": [
+            "presale-work-plan"
+          ],
+          "output": "presale-estimate",
+          "dependsOn": [
+            "presale-plan"
+          ],
+          "optionalInputs": [
+            "pricing"
+          ]
+        },
+        {
+          "id": "presale-demo",
+          "task": "presale-demo",
+          "skill": "noo-presale-prototype",
+          "inputs": [
+            "presale-work-plan"
+          ],
+          "output": "presale-demo",
+          "dependsOn": [
+            "presale-plan"
+          ]
+        },
+        {
+          "id": "presale-offer",
+          "task": "presale-offer",
+          "skill": "noo-presale-stage",
+          "inputs": [
+            "presale-work-plan",
+            "presale-estimate"
+          ],
+          "output": "presale-offer",
+          "dependsOn": [
+            "presale-plan",
+            "presale-estimate"
+          ]
+        },
+        {
+          "id": "presale-review",
+          "task": "presale-review",
+          "skill": "noo-presale-stage",
+          "inputs": [
+            "presale-brief",
+            "presale-work-plan",
+            "presale-estimate",
+            "presale-offer",
+            "presale-demo"
+          ],
+          "output": "presale-review",
+          "dependsOn": [
+            "presale-intake",
+            "presale-plan",
+            "presale-estimate",
+            "presale-offer",
+            "presale-demo",
+            "presale-client-research"
+          ],
+          "optionalInputs": [
+            "client-research"
+          ]
+        }
+      ]
+    }
+  }
+}

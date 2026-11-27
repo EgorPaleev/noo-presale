@@ -1,0 +1,17 @@
+{
+  "type": "presale-client-research",
+  "title": "Исследование клиента",
+  "inputs": [
+    "request"
+  ],
+  "output": "client-research",
+  "materials": [
+    {
+      "id": "presale/workflows/presale-playbook.md",
+      "load": "default",
+      "path": "presale/workflows/presale-playbook.md",
+      "kind": "workflows",
+      "title": "Регламент NooSoft для пресейла"
+    }
+  ]
+}

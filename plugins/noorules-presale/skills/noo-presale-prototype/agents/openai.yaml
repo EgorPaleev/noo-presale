@@ -1,0 +1,6 @@
+interface:
+  display_name: "Прототип пресейла"
+  short_description: "Кликабельное демо для десктопа и телефона"
+  default_prompt: "Используй $noo-presale-prototype, чтобы собрать и проверить один сценарий на десктопе и телефоне."
+policy:
+  allow_implicit_invocation: false

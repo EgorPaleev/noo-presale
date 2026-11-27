@@ -1,0 +1,17 @@
+{
+  "type": "prototype",
+  "title": "Прототипирование",
+  "inputs": [
+    "functional-case"
+  ],
+  "output": "prototype",
+  "materials": [
+    {
+      "id": "presale/workflows/presale-playbook.md",
+      "load": "default",
+      "path": "presale/workflows/presale-playbook.md",
+      "kind": "workflows",
+      "title": "Регламент NooSoft для пресейла"
+    }
+  ]
+}

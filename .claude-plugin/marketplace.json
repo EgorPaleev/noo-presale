@@ -1,0 +1,14 @@
+{
+  "name": "noorules-presale",
+  "owner": {
+    "name": "NooRules"
+  },
+  "description": "Оценка, КП, прототипы и клиентские демо.",
+  "plugins": [
+    {
+      "name": "noorules-presale",
+      "source": "./plugins/noorules-presale",
+      "description": "Оценка, КП, прототипы и клиентские демо."
+    }
+  ]
+}

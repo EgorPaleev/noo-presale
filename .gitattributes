@@ -1,0 +1,2 @@
+# Preserve formatting and hashes of the source materials.
+plugins/*/assets/knowledge/base/** whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab

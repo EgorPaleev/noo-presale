@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Состояние запуска NooRules",
+  "type": "object",
+  "required": ["schemaVersion", "pipeline", "pluginVersion", "steps", "externalInputs"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "pipeline": {"$ref": "#/$defs/id"},
+    "pluginVersion": {"type": "string", "minLength": 1},
+    "plan": {"$ref": "#/$defs/file"},
+    "deliveryPath": {"$ref": "#/$defs/path"},
+    "delivered": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/path"}},
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/step"}
+    },
+    "externalInputs": {"$ref": "#/$defs/artifacts"}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "path": {
+      "type": "string",
+      "pattern": "^(?!/|[A-Za-z]:|.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+    },
+    "file": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path": {"$ref": "#/$defs/path"},
+        "fingerprint": {"type": "string", "pattern": "^(?:git:(?:[0-9a-f]{40}|[0-9a-f]{64})|sha256:[0-9a-f]{64})$"},
+        "snapshotPath": {"$ref": "#/$defs/path"}
+      },
+      "anyOf": [{"required": ["fingerprint"]}, {"required": ["snapshotPath"]}]
+    },
+    "artifact": {
+      "allOf": [
+        {"$ref": "#/$defs/file"},
+        {
+          "properties": {
+            "sourceRun": {"$ref": "#/$defs/id"},
+            "dependencies": {"type": "array", "items": {"$ref": "#/$defs/file"}}
+          }
+        }
+      ]
+    },
+    "artifacts": {
+      "type": "object",
+      "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {"$ref": "#/$defs/artifact"}
+    },
+    "step": {
+      "type": "object",
+      "required": ["id", "task", "skill", "inputs", "output", "status"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "task": {"$ref": "#/$defs/id"},
+        "skill": {"$ref": "#/$defs/id"},
+        "inputs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "optionalInputs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "dependsOn": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/id"}},
+        "output": {"$ref": "#/$defs/id"},
+        "status": {"enum": ["pending", "running", "waiting", "completed", "stale"]},
+        "executor": {"enum": ["chat", "subagent"]},
+        "activity": {
+          "type": "object",
+          "required": ["message", "updatedAt"],
+          "properties": {
+            "message": {"type": "string", "minLength": 1},
+            "executor": {"enum": ["chat", "subagent"]},
+            "updatedAt": {"type": "string", "format": "date-time"}
+          }
+        },
+        "model": {
+          "type": "object",
+          "required": ["level", "reason"],
+          "properties": {
+            "level": {"enum": ["light", "standard", "advanced"]},
+            "reason": {"type": "string", "minLength": 1},
+            "recommended": {"type": "string", "minLength": 1},
+            "reasoningEffort": {"type": "string", "minLength": 1},
+            "used": {"type": "string", "minLength": 1},
+            "usedReasoningEffort": {"type": "string", "minLength": 1},
+            "fallbackReason": {"type": "string", "minLength": 1}
+          }
+        },
+        "appliedMaterials": {
+          "type": "object",
+          "required": ["skills", "rules"],
+          "properties": {
+            "skills": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+            "rules": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+            "uses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["material", "effect"],
+                "properties": {
+                  "material": {"type": "string", "minLength": 1},
+                  "effect": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        },
+        "reason": {"type": "string", "minLength": 1},
+        "targetPlatforms": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"enum": ["desktop", "mobile"]}
+        },
+        "demoEvidence": {
+          "type": "object",
+          "required": ["visualFoundation", "views"],
+          "properties": {
+            "visualFoundation": {"enum": ["project", "default"]},
+            "views": {
+              "type": "array", "minItems": 1, "maxItems": 2,
+              "items": {
+                "type": "object",
+                "required": ["platform", "screenshot", "width", "height", "scenario"],
+                "properties": {
+                  "platform": {"enum": ["desktop", "mobile"]},
+                  "screenshot": {"$ref": "#/$defs/path"},
+                  "width": {"type": "integer", "minimum": 1},
+                  "height": {"type": "integer", "minimum": 1},
+                  "scenario": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        },
+        "usedInputs": {"$ref": "#/$defs/artifacts"},
+        "result": {"$ref": "#/$defs/artifact"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "completed"}}, "required": ["status"]},
+          "then": {"required": ["usedInputs", "result"]}
+        },
+        {
+          "if": {"properties": {"status": {"enum": ["waiting", "stale"]}}, "required": ["status"]},
+          "then": {"required": ["reason"]}
+        }
+      ]
+    }
+  }
+}

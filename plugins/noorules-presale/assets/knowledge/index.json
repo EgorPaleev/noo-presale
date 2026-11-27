@@ -1,0 +1,17 @@
+{
+  "aliases": {
+    "presale/brief-to-demo.md": "presale/workflows/presale-playbook.md",
+    "presale/workflows/brief-to-demo.md": "presale/workflows/presale-playbook.md"
+  },
+  "materials": {
+    "presale/workflows/presale-playbook.md": {
+      "encoding": "utf-8",
+      "kind": "workflows",
+      "pack": "presale",
+      "path": "presale/workflows/presale-playbook.md",
+      "sha256": "fb9978577c78f27763da680afb6de0a400133b95a9cc7bd9e50c482d52390478",
+      "title": "Регламент NooSoft для пресейла"
+    }
+  },
+  "schemaVersion": 2
+}

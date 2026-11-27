@@ -1,0 +1,24 @@
+{
+  "type": "presale-review",
+  "title": "Сверка комплекта",
+  "inputs": [
+    "presale-brief",
+    "presale-work-plan",
+    "presale-estimate",
+    "presale-offer"
+  ],
+  "output": "presale-review",
+  "materials": [
+    {
+      "id": "presale/workflows/presale-playbook.md",
+      "load": "default",
+      "path": "presale/workflows/presale-playbook.md",
+      "kind": "workflows",
+      "title": "Регламент NooSoft для пресейла"
+    }
+  ],
+  "optionalInputs": [
+    "client-research",
+    "presale-demo"
+  ]
+}
